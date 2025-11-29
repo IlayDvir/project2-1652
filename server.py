@@ -68,6 +68,7 @@ class GameServer:
 
                 if readable:
                     client_socket, address = self.server_socket.accept()
+                    client_socket.setblocking(True)
                     print(f"[SERVER] New connection from {address}")
 
                     # Start client handler thread
