@@ -15,6 +15,7 @@ from game_state import GameState, TICK_RATE, PLAYER_SPEED
 HOST = '0.0.0.0'
 PORT = 5555
 TICK_INTERVAL = 1.0 / TICK_RATE
+MAX_AMMO = 10
 
 
 class GameServer:

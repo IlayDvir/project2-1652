@@ -17,6 +17,7 @@ BULLET_SPEED = 400  # pixels per second
 BULLET_LIFETIME = 3.0  # seconds
 TICK_RATE = 30  # server ticks per second
 RESPAWN_TIME = 3.0  # seconds
+MAX_AMMO = 20 # ammo per player
 
 
 class Player:
@@ -32,6 +33,7 @@ class Player:
         self.alive = True
         self.respawn_time = 0.0
         self.color = self._generate_color(player_id)
+        self.ammo = MAX_AMMO
 
     def _generate_color(self, player_id: str) -> Tuple[int, int, int]:
         """Generate a unique color based on player ID."""
@@ -69,6 +71,7 @@ class Player:
         """Try to respawn the player if respawn time has elapsed."""
         if not self.alive and time.time() >= self.respawn_time:
             self.alive = True
+            self.ammo = MAX_AMMO
             # Respawn at random position
             import random
             self.x = random.randint(PLAYER_SIZE, ARENA_WIDTH - PLAYER_SIZE)
@@ -86,7 +89,8 @@ class Player:
             'vy': self.vy,
             'score': self.score,
             'alive': self.alive,
-            'color': self.color
+            'color': self.color,
+            'ammo': self.ammo
         }
 
 
@@ -157,6 +161,10 @@ class GameState:
         player = self.players[owner_id]
         if not player.alive:
             return None
+        
+        # check if player still has ammo
+        if player.ammo <= 0:
+            return None
 
         # Normalize direction
         dx, dy = direction
@@ -170,6 +178,7 @@ class GameState:
         # Create bullet
         bullet_id = f"{owner_id}_{self.bullet_counter}"
         self.bullet_counter += 1
+        player.ammo -= 1
 
         # Spawn bullet slightly in front of player
         offset = PLAYER_SIZE + BULLET_SIZE

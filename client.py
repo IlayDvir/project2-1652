@@ -308,10 +308,15 @@ class GameClient:
             "Left Click: Shoot",
             "ESC: Quit"
         ]
+
         y_offset = ARENA_HEIGHT - 130
         for i, line in enumerate(controls):
             text = self.small_font.render(line, True, (150, 150, 150))
             self.screen.blit(text, (10, y_offset + i * 22))
+
+        # Draw ammo count
+        ammo_count = self.small_font.render(f"Ammo: {players[self.player_id]["ammo"]}", True, (200, 200, 200))
+        self.screen.blit(ammo_count, (700, 550))
 
         # Draw scoreboard
         scoreboard = sorted(players.values(), key=lambda p: p['score'], reverse=True)[:5]
