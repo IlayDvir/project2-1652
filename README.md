@@ -253,7 +253,7 @@ Potential improvements for deeper networking exploration:
 
 ## Authors
 
-Ilay Dvir and Max
+Ilay Dvir and Max Wong
 
 ## License
 
